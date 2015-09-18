@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		6E67430D1BA98F2900B03D5E /* ApplicationSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E67430C1BA98F2900B03D5E /* ApplicationSettings.m */; };
 		6E6743101BA9910B00B03D5E /* ApplicationData.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E67430F1BA9910B00B03D5E /* ApplicationData.m */; };
-		6E6A5FA81BA047EC00DB6E55 /* iFlyChatLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E6A5FA71BA047EC00DB6E55 /* iFlyChatLibrary.framework */; };
 		6EAEA1FB1B69F44B0042A11D /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EAEA1FA1B69F44B0042A11D /* libicucore.dylib */; };
 		6EAEA2011B69F7970042A11D /* GlobalListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EAEA2001B69F7970042A11D /* GlobalListTableViewCell.m */; };
 		6EAEA2061B6A1ACF0042A11D /* RoomsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EAEA2051B6A1ACF0042A11D /* RoomsTableViewController.m */; };
@@ -39,7 +38,6 @@
 		6E67430C1BA98F2900B03D5E /* ApplicationSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplicationSettings.m; sourceTree = "<group>"; };
 		6E67430E1BA9910B00B03D5E /* ApplicationData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplicationData.h; sourceTree = "<group>"; };
 		6E67430F1BA9910B00B03D5E /* ApplicationData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplicationData.m; sourceTree = "<group>"; };
-		6E6A5FA71BA047EC00DB6E55 /* iFlyChatLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = iFlyChatLibrary.framework; sourceTree = "<group>"; };
 		6EAEA1FA1B69F44B0042A11D /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		6EAEA1FF1B69F7970042A11D /* GlobalListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlobalListTableViewCell.h; sourceTree = "<group>"; };
 		6EAEA2001B69F7970042A11D /* GlobalListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlobalListTableViewCell.m; sourceTree = "<group>"; };
@@ -68,7 +66,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E6A5FA81BA047EC00DB6E55 /* iFlyChatLibrary.framework in Frameworks */,
 				6EAEA1FB1B69F44B0042A11D /* libicucore.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -141,7 +138,6 @@
 		6ECB81171B68FA0B009E78EA = {
 			isa = PBXGroup;
 			children = (
-				6E6A5FA71BA047EC00DB6E55 /* iFlyChatLibrary.framework */,
 				6EAEA1FA1B69F44B0042A11D /* libicucore.dylib */,
 				6ECB81221B68FA0C009E78EA /* iFlyChatGlobalListView */,
 				6ECB813C1B68FA0C009E78EA /* iFlyChatGlobalListViewTests */,
@@ -439,7 +435,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)";
+				FRAMEWORK_SEARCH_PATHS = "";
 				INFOPLIST_FILE = iFlyChatGlobalListView/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -452,7 +448,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)";
+				FRAMEWORK_SEARCH_PATHS = "";
 				INFOPLIST_FILE = iFlyChatGlobalListView/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

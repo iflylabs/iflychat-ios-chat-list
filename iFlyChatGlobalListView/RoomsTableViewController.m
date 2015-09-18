@@ -133,7 +133,7 @@
             dispatch_async(fetchImage, ^{
         
                 //Downloading images asynchronously
-                [self loadImagesWithURL:[NSString stringWithFormat:@"%@%@",@"http:",[currentRoom getAvatarUrl] IndexPath:indexPath activeTableView:tableView roomId:currentRoom.getId];
+                [self loadImagesWithURL:[NSString stringWithFormat:@"%@%@",@"http:",[currentRoom getAvatarUrl]] IndexPath:indexPath activeTableView:tableView roomId:currentRoom.getId];
             
         
             });
