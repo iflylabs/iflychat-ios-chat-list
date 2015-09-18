@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "-[iFlyChatService webSocket:didReceiveMessage:]:iFlyChatService.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "(__NSCFString *)[0].value">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>
