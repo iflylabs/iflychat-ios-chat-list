@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		6E67430D1BA98F2900B03D5E /* ApplicationSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E67430C1BA98F2900B03D5E /* ApplicationSettings.m */; };
 		6E6743101BA9910B00B03D5E /* ApplicationData.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E67430F1BA9910B00B03D5E /* ApplicationData.m */; };
-		6EAEA1FB1B69F44B0042A11D /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EAEA1FA1B69F44B0042A11D /* libicucore.dylib */; };
+		6EA92D951BB151D8001A6B56 /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EA92D941BB151D8001A6B56 /* libicucore.tbd */; };
 		6EAEA2011B69F7970042A11D /* GlobalListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EAEA2001B69F7970042A11D /* GlobalListTableViewCell.m */; };
 		6EAEA2061B6A1ACF0042A11D /* RoomsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EAEA2051B6A1ACF0042A11D /* RoomsTableViewController.m */; };
 		6EAEA2091B6A26820042A11D /* DataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EAEA2081B6A26820042A11D /* DataClass.m */; };
@@ -38,7 +38,7 @@
 		6E67430C1BA98F2900B03D5E /* ApplicationSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplicationSettings.m; sourceTree = "<group>"; };
 		6E67430E1BA9910B00B03D5E /* ApplicationData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplicationData.h; sourceTree = "<group>"; };
 		6E67430F1BA9910B00B03D5E /* ApplicationData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplicationData.m; sourceTree = "<group>"; };
-		6EAEA1FA1B69F44B0042A11D /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
+		6EA92D941BB151D8001A6B56 /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = usr/lib/libicucore.tbd; sourceTree = SDKROOT; };
 		6EAEA1FF1B69F7970042A11D /* GlobalListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlobalListTableViewCell.h; sourceTree = "<group>"; };
 		6EAEA2001B69F7970042A11D /* GlobalListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlobalListTableViewCell.m; sourceTree = "<group>"; };
 		6EAEA2041B6A1ACF0042A11D /* RoomsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoomsTableViewController.h; sourceTree = "<group>"; };
@@ -66,7 +66,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6EAEA1FB1B69F44B0042A11D /* libicucore.dylib in Frameworks */,
+				6EA92D951BB151D8001A6B56 /* libicucore.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,7 +138,7 @@
 		6ECB81171B68FA0B009E78EA = {
 			isa = PBXGroup;
 			children = (
-				6EAEA1FA1B69F44B0042A11D /* libicucore.dylib */,
+				6EA92D941BB151D8001A6B56 /* libicucore.tbd */,
 				6ECB81221B68FA0C009E78EA /* iFlyChatGlobalListView */,
 				6ECB813C1B68FA0C009E78EA /* iFlyChatGlobalListViewTests */,
 				6ECB81211B68FA0C009E78EA /* Products */,
@@ -243,7 +243,7 @@
 		6ECB81181B68FA0B009E78EA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0640;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Prateek Grover";
 				TargetAttributes = {
 					6ECB811F1B68FA0C009E78EA = {
@@ -370,6 +370,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -435,10 +436,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				FRAMEWORK_SEARCH_PATHS = "";
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)";
 				INFOPLIST_FILE = iFlyChatGlobalListView/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "iFlyLabs.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -448,10 +451,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				FRAMEWORK_SEARCH_PATHS = "";
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)";
 				INFOPLIST_FILE = iFlyChatGlobalListView/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "iFlyLabs.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -461,16 +466,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = iFlyChatGlobalListViewTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "iFlyLabs.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iFlyChatGlobalListView.app/iFlyChatGlobalListView";
 			};
@@ -480,12 +483,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = iFlyChatGlobalListViewTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "iFlyLabs.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iFlyChatGlobalListView.app/iFlyChatGlobalListView";
 			};

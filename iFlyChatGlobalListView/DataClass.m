@@ -43,7 +43,7 @@ static DataClass *instance = nil;
     
     //iFlyChatConfig object with server host, auth URL, SSL connection boolean and iFlyChatUserSession object. These are the basic configuration parameters used to connect to iFlyChat's servers
     
-    appData.config = [[iFlyChatConfig alloc] initIFlyChatConfigwithServerHost:@"serverhost.com" authUrl:@"http://example/auth/url" isHttps:NO userSession:appData.session];
+    appData.config = [[iFlyChatConfig alloc] initIFlyChatConfigwithServerHost:@"serverhost.com" authUrl:@"http://example.com/auth/url" isHttps:NO userSession:appData.session];
     
     //If auto reconnection is required, set it to "YES"
     

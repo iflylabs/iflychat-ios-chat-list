@@ -66,13 +66,13 @@
     [self refreshUserList];
     
     //Registering for the notification that will come from DataClass after library sends the updated Global List
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshUserList) name:@"onUpdatedUserList" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshUserList) name:@"onUpdatedGlobalList" object:nil];
 }
 
 - (void)viewDidDisappear: (BOOL)animated{
     
     //Removing the observer
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"onUpdatedUserList" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"onUpdatedGlobalList" object:nil];
     
 }
 
