@@ -62,13 +62,13 @@
     [self refreshRoomList];
     
     //Registering for the notification that will come from DataClass after library sends the updated Global List
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshRoomList) name:@"iFlyChat.updatedRoomList" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshRoomList) name:@"onUpdatedGlobalList" object:nil];
 }
 
 - (void)viewDidDisappear: (BOOL)animated
 {
     //Removing the observer
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"iFlyChat.updatedRoomList" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"onUpdatedGlobalList" object:nil];
 }
 
 
