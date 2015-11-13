@@ -11,10 +11,25 @@
 @implementation GlobalListTableViewCell
 
 @synthesize avatarImage;
+@synthesize userLetterLabel;
 @synthesize nameLabel;
 @synthesize messageLabel;
 @synthesize timeLabel;
 
+
+- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated
+{
+    UIColor *backgroundColor = self.avatarImage.backgroundColor;
+    [super setHighlighted:highlighted animated:animated];
+    self.avatarImage.backgroundColor = backgroundColor;
+}
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated
+{
+    UIColor *backgroundColor = self.avatarImage.backgroundColor;
+    [super setSelected:selected animated:animated];
+    self.avatarImage.backgroundColor = backgroundColor;
+}
 
 @end
 

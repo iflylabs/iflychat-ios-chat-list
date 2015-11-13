@@ -9,12 +9,14 @@
 #import "RoomsTableViewController.h"
 #import "GlobalListTableViewCell.h"
 #import "DataClass.h"
+#import "Utility.h"
 #import "ApplicationSettings.h"
 
 @implementation RoomsTableViewController
 {
     DataClass *dtclass;
     ApplicationSettings *appSettings;
+    ApplicationData *appData;
     dispatch_queue_t fetchImage;
     NSCache *roomImageCache;
 }
@@ -124,30 +126,13 @@
     cell.nameLabel.text = currentRoom.getName;
     cell.timeLabel.text = @"5 pm";
     
-    //Checking if the image is already downloaded for the room id
-    if([roomImageCache objectForKey:currentRoom.getId] == nil)
-    {
-        if([[currentRoom getAvatarUrl] length]!=0)
-        {
-        
-            dispatch_async(fetchImage, ^{
-        
-                //Downloading images asynchronously
-                [self loadImagesWithURL:[NSString stringWithFormat:@"%@%@",@"http:",[currentRoom getAvatarUrl]] IndexPath:indexPath activeTableView:tableView roomId:currentRoom.getId];
-            
-        
-            });
-        }
+    [cell.userLetterLabel setHidden:YES];
     
-        //If avatar url is empty, set the default image
-        cell.avatarImage.image = [UIImage imageNamed:@"defaultRoom.png"];
-        
-    }
-    else
-    {
-        //If the image is already downloaded, get it from cache and set it
-        cell.avatarImage.image = [roomImageCache objectForKey:currentRoom.getId];
-    }
+    //If avatar url is empty, set the default image
+    
+    [cell.avatarImage setBackgroundColor:[Utility getColorFromNameWithoutPrefix:currentRoom.getName]];
+    
+    cell.avatarImage.image = [UIImage imageNamed:@"ChatRoom.png"];
     
     cell.messageLabel.text = @"No message";
     
@@ -168,7 +153,10 @@
     UIImage *img = [UIImage imageWithData:data];
     
     //Inserting downloaded image in cache
-    [roomImageCache setObject:img forKey:roomId];
+    if(img != nil)
+    {
+        [roomImageCache setObject:img forKey:roomId];
+    }
     
     dispatch_async(dispatch_get_main_queue(), ^{
         

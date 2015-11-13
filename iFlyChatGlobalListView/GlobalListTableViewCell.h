@@ -11,6 +11,7 @@
 @interface GlobalListTableViewCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImage;
+@property (weak, nonatomic) IBOutlet UILabel *userLetterLabel;
 
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 

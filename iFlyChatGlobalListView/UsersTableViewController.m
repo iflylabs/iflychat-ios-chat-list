@@ -10,13 +10,19 @@
 #import "GlobalListTableViewCell.h"
 #import "DataClass.h"
 #import "ApplicationSettings.h"
+#import "Utility.h"
+@import MobileCoreServices;
+#import <AssetsLibrary/AssetsLibrary.h>
 
 @implementation UsersTableViewController
 {
     DataClass *dtclass;
     ApplicationSettings *appSettings;
+    ApplicationData *appData;
     dispatch_queue_t fetchImage;
     NSCache *userImageCache;
+    
+    BOOL use_default_avatar;
 }
 
 @synthesize userArray;
@@ -29,9 +35,13 @@
     //Getting singleton instances of DataClass and ApplicationSettings
     dtclass = [DataClass getInstance];
     appSettings = [ApplicationSettings getInstance];
+    appData = [ApplicationData getInstance];
     
     //Setting the Top bar title for Users Tab
     [appSettings setUsersTabTopBarTitle:@"Chats"];
+    
+    
+    use_default_avatar = NO;
     
     
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
@@ -65,9 +75,17 @@
     //Putting the data inside the table view
     [self refreshUserList];
     
+    [self.tabBarController.tabBar setHidden:NO];
+    
     //Registering for the notification that will come from DataClass after library sends the updated Global List
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshUserList) name:@"onUpdatedGlobalList" object:nil];
+    
+    //Adding observers for required notifications.
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(chatConnect:) name:@"iFlyChat.onChatConnect" object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gotSessionKey:) name:@"iFlyChat.onGetSessionKey" object:nil];
 }
+
 
 - (void)viewDidDisappear: (BOOL)animated{
     
@@ -87,6 +105,20 @@
         [self.tableView reloadData];
     }
 }
+
+-(void) chatConnect:(NSNotification *)notification
+{
+    //Assigning the loggedUser data to the loggedUser variable in application data
+    NSDictionary *dict = [notification object];
+    appData.loggedUser = [dict objectForKey:@"iFlyChatCurrentUser"];
+}
+
+-(void) gotSessionKey:(NSNotification *)notification
+{
+    //Assigning session key
+    appData.sessionKey = [notification object];
+}
+
 
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -131,23 +163,14 @@
     //Checking if the image is already downloaded for the user id
     if([userImageCache objectForKey:currentUser.getId] == nil)
     {
-        if([[currentUser getAvatarUrl] length]!=0)
-        {
-            dispatch_async(fetchImage, ^{
-        
-                //Downloading images asynchronously
-                [self loadImagesWithURL:[NSString stringWithFormat:@"%@%@",@"http:",[currentUser getAvatarUrl]] IndexPath:indexPath activeTableView:tableView userId:currentUser.getId];
-            
-            });
-        }
-    
-        //If avatar url is empty, set the default image
-        cell.avatarImage.image = [UIImage imageNamed:@"defaultUser.png"];
+        [self setChatImage:cell.avatarImage userLetterLabel:cell.userLetterLabel userId:currentUser.getId userName:currentUser.getName userAvatarUrl:currentUser.getAvatarUrl];
     }
     else
     {
         //If the image is already downloaded, get it from cache and set it
         cell.avatarImage.image = [userImageCache objectForKey:currentUser.getId];
+        cell.avatarImage.backgroundColor = [UIColor whiteColor];
+        [cell.userLetterLabel setHidden:YES];
     }
     
     cell.messageLabel.text = @"No message";
@@ -155,7 +178,90 @@
     return cell;
 }
 
--(void) loadImagesWithURL:(NSString *)imageURL IndexPath:(NSIndexPath *)indexPath activeTableView:(UITableView *)tableView userId:(NSString *)userId
+-(void) setChatImage:(UIImageView *)userImageView userLetterLabel:(UILabel *)userLetterLabel userId:(NSString *)userId userName:(NSString *)userName userAvatarUrl:(NSString *)userAvatarUrl
+{
+    if([self checkRegisteredUser:userId])
+    {
+        if(userAvatarUrl.length != 0)
+        {
+            if([userAvatarUrl rangeOfString:@"default_avatar"].location != NSNotFound || [userAvatarUrl rangeOfString:@"gravatar"].location != NSNotFound )
+            {
+                if(use_default_avatar)
+                {
+                    //A registered user with no image set and we have to use only default image, no letter image
+                    [self setDefaultAvatarWithBackgroundColor:userName userImageView: userImageView];
+                    [userLetterLabel setHidden:YES];
+                }
+                else
+                {
+                    //A registered user with no image set and we are allowed to use letter image
+                    [self setLetterAvatarWithBackgroundColor:userName userImageView: userImageView userLetterLabel: userLetterLabel];
+                }
+            }
+            else
+            {
+                //A registered user with image set so use URL image
+                dispatch_async(fetchImage, ^{
+                    //Downloading images asynchronously
+                    [self loadImagesWithURL:[NSString stringWithFormat:@"%@%@",@"http:",userAvatarUrl] userImageView:userImageView userId:userId];
+                });
+                
+                [userLetterLabel setHidden:YES];
+                userImageView.backgroundColor = [UIColor whiteColor];
+            }
+        }
+        else if(use_default_avatar)
+        {
+            //A registered user with no URL for avatar and we have to use default image, no letter image
+            [self setDefaultAvatarWithBackgroundColor:userName userImageView: userImageView];
+            [userLetterLabel setHidden:YES];
+        }
+        else
+        {
+            //A registered user with no URL for avatar and we are allowed to use letter image
+            [self setLetterAvatarWithBackgroundColor:userName userImageView: userImageView userLetterLabel: userLetterLabel];
+        }
+    }
+    else
+    {
+        if(use_default_avatar)
+        {
+            //A guest user and we have to use default image, no letter image
+            [self setDefaultAvatarWithBackgroundColor:[Utility getNameWithoutPrefix:userName] userImageView: userImageView];
+            [userLetterLabel setHidden:YES];
+        }
+        else
+        {
+            //A guest user and we are allowed to use letter image
+            [self setLetterAvatarWithBackgroundColor:[Utility getNameWithoutPrefix:userName] userImageView: userImageView userLetterLabel: userLetterLabel];
+        }
+    }
+}
+
+
+-(void) setDefaultAvatarWithBackgroundColor:(NSString *)userNameWithoutPrefix userImageView:(UIImageView *)userImageView
+{
+    userImageView.backgroundColor = [Utility getColorFromNameWithoutPrefix:userNameWithoutPrefix];
+    userImageView.image = [UIImage imageNamed:@"MaleUser"];
+}
+
+-(void) setLetterAvatarWithBackgroundColor:(NSString *)userNameWithoutPrefix userImageView:(UIImageView *)userImageView userLetterLabel:(UILabel *)userLetterLabel
+{
+    if([[Utility getLetterFromNameWithoutPrefix:userNameWithoutPrefix] rangeOfCharacterFromSet:[NSCharacterSet decimalDigitCharacterSet]].location != NSNotFound)
+    {
+        [userLetterLabel setHidden:YES];
+        [self setDefaultAvatarWithBackgroundColor:userNameWithoutPrefix userImageView:userImageView];
+    }
+    else
+    {
+        userImageView.backgroundColor = [Utility getColorFromNameWithoutPrefix:userNameWithoutPrefix];
+        userLetterLabel.text = [Utility getLetterFromNameWithoutPrefix:userNameWithoutPrefix];
+        [userLetterLabel setHidden:NO];
+        userImageView.image = nil;
+    }
+}
+
+-(void) loadImagesWithURL:(NSString *)imageURL userImageView:(UIImageView *)userImageView userId:(NSString *)userId
 {
     NSURL *url = [NSURL URLWithString:imageURL];
     NSData *data = [[NSData alloc ] initWithContentsOfURL:url];
@@ -163,15 +269,28 @@
     UIImage *img = [UIImage imageWithData:data];
     
     //Inserting downloaded image in cache
-    [userImageCache setObject:img forKey:userId];
+    if(img != nil)
+    {
+        [userImageCache setObject:img forKey:userId];
+    }
     
     dispatch_async(dispatch_get_main_queue(), ^{
         
         //Setting the image in the correct tableview and in the correct row
-        GlobalListTableViewCell *cell = (GlobalListTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
-        cell.avatarImage.image = img;
-        
+        userImageView.image = img;
     });
+}
+
+-(BOOL) checkRegisteredUser:(NSString *)userId
+{
+    if([userId rangeOfString:@"0-"].location != NSNotFound)
+    {
+        return NO;
+    }
+    else
+    {
+        return YES;
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
